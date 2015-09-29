@@ -12,7 +12,6 @@ function getCSV(file_path, opts, callback){
     var out = [];
     var stream;
     fs.stat(file_path, function(err, data){
-      console.log(data);
       stream = data ? fs.createReadStream(file_path) : request(file_path);
       var csv_opts = opts ? opts : {headers:true};
       var csvStream = csv(csv_opts)
@@ -36,18 +35,5 @@ function getCSV(file_path, opts, callback){
   });
 }
 
-function isUrl(str) {
-  var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
-  '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
-  '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
-  '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
-  '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
-  '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
-  if(!pattern.test(str)) {
-    return false;
-  } else {
-    return true;
-  }
-}
 
 module.exports = getCSV;
