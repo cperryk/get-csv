@@ -1,6 +1,6 @@
 {
   "name": "get-csv",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "Takes a path to a CSV file. Callbacks with an array of objects representing each row. A super-simple package designed for convenience.",
   "main": "index.js",
   "scripts": {
@@ -13,6 +13,10 @@
   "dependencies": {
     "fast-csv": "^0.6.0",
     "request": "^2.64.0"
+  },
+  "repository":{
+    "type" : "git",
+    "url" : "https://github.com/cperryk/get-csv.git"
   },
   "_id": "get-csv@1.0.3",
   "_shasum": "7641018d6be516a0d873e74dd6e22abd856a7076",
