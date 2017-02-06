@@ -9,12 +9,12 @@ const getCSV = require('./index'),
       baz: '3'
     },
     {
-      foo: 'one two',
+      foo: 'one, two',
       bar: 'three',
       baz: 'four'
     }
   ],
-  MOCK_RESULT_NO_HEADERS = [['foo','bar','baz'],['1','2','3'],['one two','three','four']];
+  MOCK_RESULT_NO_HEADERS = [['foo','bar','baz'],['1','2','3'],['one, two','three','four']];
 
 describe('getCSV', function () {
   it('Fetches a local file', function (done) {
@@ -22,9 +22,6 @@ describe('getCSV', function () {
       .then(result => {
         expect(result).to.deep.equal(MOCK_RESULT);
         done();
-      })
-      .catch((err)=>{
-        console.log('err', err);
       });
   });
   it('Fetches a Google Spreadsheet URL', function (done) {
