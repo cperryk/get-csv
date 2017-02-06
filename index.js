@@ -22,13 +22,19 @@ function resolveSrc(src) {
 
 
 function getCSV(src, opts, callback) {
+  const out = [];
+  let csvOpts;
+
   if (typeof opts === 'function' && callback === undefined) {
     callback = opts;
-    opts = {};
+    csvOpts = {};
   }
+
+  csvOpts = _.defaults(opts, {headers: true});
+
   return new Promise((resolve, reject)=>{
-    const csvOpts = _.defaults(opts, {headers: true}),
-      out = [],
+    const readStream = resolveSrc(src)
+        .on('error', reject),
       csvStream = csv(csvOpts)
         .on('data', data => out.push(data))
         .on('end', () => {
@@ -40,7 +46,7 @@ function getCSV(src, opts, callback) {
           reject(err);
         });
 
-    resolveSrc(src).pipe(csvStream);
+    readStream.pipe(csvStream);
   });
 }
 

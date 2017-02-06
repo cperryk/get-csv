@@ -52,4 +52,19 @@ describe('getCSV', function () {
         done();
       });
   });
+  it('Supports options with callback', function (done) {
+    getCSV(fs.createReadStream('test.csv'), {headers: false}, (err, rows)=>{
+      expect(err).to.equal(null);
+      expect(rows).to.deep.equal(MOCK_RESULT_NO_HEADERS);
+      done();
+    });
+  });
+  it('Rejects promise if src is not found', function (done) {
+    getCSV('a-path-to-nowhere.csv')
+      .then(result => done('Function was supposed to throw error but resolved with ', result))
+      .catch((err) => {
+        expect(err).to.be.ok;
+        done();
+      });
+  });
 });
