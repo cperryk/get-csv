@@ -1,3 +1,5 @@
+'use strict';
+
 const fs = require('fs'),
   csv = require('fast-csv'),
   request = require('request'),

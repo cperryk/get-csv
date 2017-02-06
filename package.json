@@ -1,6 +1,6 @@
 {
   "name": "get-csv",
-  "version": "3.0.2",
+  "version": "3.0.3",
   "description": "Takes a path to a CSV file. Callbacks with an array of objects representing each row. A super-simple package designed for convenience.",
   "main": "index.js",
   "scripts": {
