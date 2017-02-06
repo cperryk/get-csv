@@ -1,13 +1,20 @@
 const getCSV = require('./index'),
   expect = require('chai').expect,
   fs = require('fs'),
+  TEST_URL = 'https://docs.google.com/spreadsheets/d/1fjvn5HZpyIM-R4TTgg17Ze4sHfWbri2y2I0VP1B0lv0/pub?output=csv',
   MOCK_RESULT = [
     {
       foo: '1',
       bar: '2',
       baz: '3'
+    },
+    {
+      foo: 'one two',
+      bar: 'three',
+      baz: 'four'
     }
-  ];
+  ],
+  MOCK_RESULT_NO_HEADERS = [['foo','bar','baz'],['1','2','3'],['one two','three','four']];
 
 describe('getCSV', function () {
   it('Fetches a local file', function (done) {
@@ -21,7 +28,7 @@ describe('getCSV', function () {
       });
   });
   it('Fetches a Google Spreadsheet URL', function (done) {
-    getCSV('https://docs.google.com/spreadsheets/d/1fjvn5HZpyIM-R4TTgg17Ze4sHfWbri2y2I0VP1B0lv0/pub?output=csv')
+    getCSV(TEST_URL)
       .then(result => {
         expect(result).to.deep.equal(MOCK_RESULT);
         done();
@@ -40,5 +47,12 @@ describe('getCSV', function () {
       expect(err).to.equal(null);
       done();
     });
+  });
+  it('Supports fast-csv options', function (done) {
+    getCSV(fs.createReadStream('test.csv'), {headers: false})
+      .then((result)=>{
+        expect(result).to.deep.equal(MOCK_RESULT_NO_HEADERS);
+        done();
+      });
   });
 });

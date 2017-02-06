@@ -1,10 +1,10 @@
 {
   "name": "get-csv",
-  "version": "2.1.1",
+  "version": "3.0.0",
   "description": "Takes a path to a CSV file. Callbacks with an array of objects representing each row. A super-simple package designed for convenience.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha test"
   },
   "author": {
     "name": "Chris Kirk"
