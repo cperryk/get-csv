@@ -1,39 +1,47 @@
-var fs = require('fs');
-var csv = require('fast-csv');
-var request = require('request');
+const fs = require('fs'),
+  csv = require('fast-csv'),
+  request = require('request'),
+  isUrl = require('is-url'),
+  _ = require('lodash'),
+  isStream = require('is-stream');
 
-function getCSV(file_path, opts, callback){
-
-  if(typeof opts === 'function' && callback === undefined){
-    callback = opts;
-    opts = null;
+/**
+ * Return a stream from a source.
+ * @param  {String} src - File path, URL, or stream.
+ * @return {Object} - A stream
+ */
+function resolveSrc(src) {
+  if (isUrl(src)) {
+    return request(src);
   }
-  return new Promise(function(resolve, reject){
-    var out = [];
-    var stream;
-    fs.stat(file_path, function(err, data){
-      stream = data ? fs.createReadStream(file_path) : request(file_path);
-      var csv_opts = opts ? opts : {headers:true};
-      var csvStream = csv(csv_opts)
-        .on("data", function(data){
-          out.push(data);
-        })
-        .on("end", function(){
-          if(callback){
-            callback(null, out);
-          }
-          resolve(out);
-        })
-        .on("error", function(err){
-          if(callback){
-            callback(err);
-          }
-          reject(err);
-        });
-      stream.pipe(csvStream);
-    });
-  });
+  if (isStream(src)) {
+    return src;
+  }
+  return fs.createReadStream(src);
 }
 
+
+function getCSV(src, opts, callback) {
+  if (typeof opts === 'function' && callback === undefined) {
+    callback = opts;
+    opts = {};
+  }
+  return new Promise((resolve, reject)=>{
+    const csvOpts = _.defaults(opts, {headers: true}),
+      out = [],
+      csvStream = csv(csvOpts)
+        .on('data', data => out.push(data))
+        .on('end', () => {
+          if (callback) callback(null, out);
+          resolve(out);
+        })
+        .on('error', (err) => {
+          if (callback) callback(err);
+          reject(err);
+        });
+
+    resolveSrc(src).pipe(csvStream);
+  });
+}
 
 module.exports = getCSV;

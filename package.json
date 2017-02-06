@@ -11,14 +11,22 @@
   },
   "license": "ISC",
   "dependencies": {
-    "fast-csv": "^0.6.0",
-    "request": "^2.64.0"
+    "fast-csv": "^2.3.1",
+    "is-stream": "^1.1.0",
+    "is-url": "^1.2.2",
+    "lodash": "^4.17.4",
+    "request": "^2.64.0",
+    "stream-to-array": "^2.3.0"
   },
-  "repository":{
-    "type" : "git",
-    "url" : "https://github.com/cperryk/get-csv.git"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cperryk/get-csv.git"
   },
   "_id": "get-csv@1.0.3",
   "_shasum": "7641018d6be516a0d873e74dd6e22abd856a7076",
-  "_from": "get-csv@1.0.3"
+  "_from": "get-csv@1.0.3",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^3.2.0"
+  }
 }
